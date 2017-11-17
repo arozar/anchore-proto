@@ -1,10 +1,23 @@
 {
+    "presets": [
+
+            "react",
+            "latest",
+            "next/babel"
+
+    ],
+    "plugins": ["transform-object-rest-spread", "transform-class-properties", "transform-regenerator"],
     "env": {
-      "test": {
-        "presets": [
-          ["env", { "modules": "commonjs" }],
-          "next/babel"
-        ]
-      }
+        "test": {
+            "presets": [
+                [
+                    "env",
+                    {
+                        "modules": "commonjs"
+                    }
+                ],
+                "next/babel"
+            ]
+        }
     }
-  }
+}
