@@ -1,10 +1,17 @@
-import { getAllImages, imagesUrl, getImageVuln, getVulnUrl, createRequestHeaders } from './imagesApi'
+import { getAllImages, imagesUrl, getImageVuln, getVulnUrl } from './imagesApi'
 import { create } from 'domain';
 
 describe('GET Images', () => {
 
+    let images
+    ,response
+
     beforeEach(() => {
         td.replace(global, 'fetch');
+
+        images = [];
+        
+                response = { then: () => images };
     });
 
     afterEach(() => {
@@ -12,67 +19,62 @@ describe('GET Images', () => {
     });
 
     it('getAllImages fetches images url', async () => {
-
-        const images = [];
-
-        const response = { then: () => images };
-
         td.when(fetch(imagesUrl,td.matchers.anything())).thenReturn(response);
 
         const result = await getAllImages();
 
         expect(result).toBe(images);
     });
+
+    it('getAllImages uses createRequestHeaders', async () => {
+
+        const createRequestHeadersDouble = td.replace(require('./images.security'), 'createRequestHeaders');        
+
+        td.when(fetch(imagesUrl,td.matchers.anything())).thenReturn(response);
+
+        const result = await getAllImages();
+
+        td.verify(createRequestHeadersDouble());
+    });
 });
 
 describe('GET Images Vuln', () => {
 
+    let imageDigest
+    ,vulnData
+    ,response
+    ,imageVulnUrl;
+
     beforeEach(() => {
         td.replace(global, 'fetch');
+
+        imageDigest = 'someRandomVal'
+        ,vulnData = { imageDigest: '', vulnerabilities: [] }
+        ,response = { then: () => vulnData }
+        ,imageVulnUrl = getVulnUrl(imageDigest);
     });
 
     afterEach(() => {
         td.reset();
     });
 
-    it('getImageVuln fetches getVulnUrl', () => {
+    it('getImageVuln fetches getVulnUrl', async () => {
 
-        const imageDigest = 'someRandomVal';
+        td.when(fetch(imageVulnUrl,td.matchers.anything())).thenReturn(response);
 
-        const vulnData = { imageDigest: '', vulnerabilities: [] };
+        const result = await getImageVuln(imageDigest);
 
-        const response = { then: () => vulnData };
-
-        const imageVulnUrl = getVulnUrl(imageDigest);
-
-        td.when(fetch(imageVulnUrl)).thenReturn(response);
+        expect(result).toBe(vulnData);
     });
 
+    it('getImageVuln uses createRequestHeaders', async () => {
 
-});
+        const createRequestHeadersDouble = td.replace(require('./images.security'), 'createRequestHeaders');
 
-describe('createRequestHeaders',() => {
-    
-    // beforeEach(() => {
-    //     process.env.user = 
-    // });
+        td.when(fetch(imageVulnUrl, td.matchers.anything())).thenReturn(response);
 
-    // afterEach(() => {
-    //     td.reset();
-    // });
-    
-    // it('should use env username and password', () => {
+        await getImageVuln(imageDigest);
 
-    //     const usernameDouble = td.replace(process.env, 'API_USER');
-
-    //     const passwordDouble = td.replace(process.env, 'API_PASS');
-        
-    //     createRequestHeaders();
-
-    //     td.verify()
-    // });
-
-    // it('', () =>{
-
-    // });
+        td.verify(createRequestHeadersDouble());
+    });
 });
