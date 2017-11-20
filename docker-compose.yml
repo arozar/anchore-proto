@@ -65,3 +65,14 @@ services:
     #uncomment to expose a port to allow direct/external access to the DB, for debugging
     #ports:
     # - "2345:5432"
+  app:
+    build: .
+    ports:
+      - '3100:3000'
+    volumes:
+      - .:/home/nodejs/app
+      - /home/nodejs/app/node_modules
+    environment:
+      - ANCHORE_CLI_URL=http://anchore-engine:8228/v1
+      - ANCHORE_CLI_USER=$ANCHORE_CLI_USER
+      - ANCHORE_CLI_PASS=$ANCHORE_CLI_PASS
