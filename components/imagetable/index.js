@@ -4,19 +4,21 @@ import { Router } from '../../routes';
 import ReactTable from "react-table";
 import { stylesheet } from 'react-table/react-table.css';
 
-const ImageTable = ({ images }) => (
+const ImageTable = ({ images, selectItem }) => (
 
     <div>
         <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
         <ReactTable
+            filterable
+            defaultFilterMethod={(filter, row) =>
+            row[filter.id].toString().includes(filter.value)}
             getTdProps={(state, rowInfo, column, instance) => {
                 return {
                   onClick: (e, handleOriginal) => {
 
                     const { row } = rowInfo;
 
-                    Router.pushRoute('vuln', { id: row.imageDigest })
-
+                    selectItem(row.imageDigest);
                   }
                 }
               }}

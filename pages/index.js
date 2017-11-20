@@ -4,6 +4,7 @@ import { initStore, startClock, addCount, serverRenderClock } from '../store'
 import namor from "namor";
 
 import withRedux from 'next-redux-wrapper';
+import { Router } from '../routes';
 
 import { getImages } from '../actions/images';
 import { mapImages } from '../actions/images/images.selectors';
@@ -25,12 +26,15 @@ class ImagePage extends React.Component {
   componentWillUnmount () {
   }
 
+  displayVulerabilities(id) {
+    Router.pushRoute('vuln', { id });    
+  }
   render () {
 
     const { images, loading, data } = this.props;
     return (
       <Main>
-        <ImageTable images={images||[]}/>
+        <ImageTable images={images||[]} selectItem={this.displayVulerabilities}/>
       </Main>
       )
   }

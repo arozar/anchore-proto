@@ -12,7 +12,7 @@ const VulnTable = ({ vulnData, severityOptions }) => (
             data={vulnData}
             filterable
             defaultFilterMethod={(filter, row) =>
-                row[filter.id].toString().startsWith(filter.value)}
+                row[filter.id].toString().includes(filter.value)}
             columns={[
                 {
                     Header: "Vuln",
@@ -29,7 +29,7 @@ const VulnTable = ({ vulnData, severityOptions }) => (
                             Header: "Severity",
                             accessor: "severity",
                             filterMethod: (filter, row) => {
-                                if (filter.value === "all") {
+                                if (filter.value === "any") {
                                     return true;
                                 }
 

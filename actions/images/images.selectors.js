@@ -32,8 +32,9 @@ export function mapImageMeta({ meta }) {
     };
 }
 
-export function mapImageDetail([detail]){
+export function mapImageDetail(details){
 
+    const detail = getLatestbyDate(details);
     return {
         imageId: detail.imageId,
         registry: detail.registry,
@@ -51,5 +52,25 @@ export function mapVulnGroups(apiData){
 
     const distinctVals = [...new Set(allSeverity)];
 
-    return distinctVals; 
+    return ['any',...distinctVals]; 
 }
+
+export function getLatestbyDate(details){
+    
+        if(!details || !details.length)
+            return;
+    
+        if(details.length === 1)
+            return details[0];
+    
+        details.sort((current, next) => {
+    
+            const currentDateString = current.last_updated || current.created_at;
+    
+            const nextDateString = next.last_updated || next.created_at;
+    
+            return new Date(currentDateString) - new Date(nextDateString);
+        });
+    
+        return details[details.length - 1];
+    }

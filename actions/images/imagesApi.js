@@ -23,3 +23,4 @@ export async function getImageVuln (imageDigest) {
 export function getVulnUrl(imageDigest){
     return `${imagesUrl}/${imageDigest}/vuln/os`;
 }
+
