@@ -1,4 +1,5 @@
 import React from 'react'
+import { Router } from '../../routes';
 
 import ReactTable from "react-table";
 import { stylesheet } from 'react-table/react-table.css';
@@ -12,7 +13,7 @@ const ImageTable = ({ images }) => (
                 return {
                   onClick: (e, handleOriginal) => {
                     console.log('It was in this row:', rowInfo.row)
-            
+                    Router.pushRoute('other', { id: 'baz' })
                     // IMPORTANT! React-Table uses onClick internally to trigger
                     // events like expanding SubComponents and pivots.
                     // By default a custom 'onClick' handler will override this functionality.

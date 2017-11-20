@@ -1,5 +1,6 @@
 import express from 'express'
 import next from 'next'
+import routes from './routes'
 
 const devProxy = {
   '/api': {
@@ -17,7 +18,7 @@ const app = next({
   dev
 })
 
-const handle = app.getRequestHandler()
+const handle = routes.getRequestHandler(app)
 
 let server
 app

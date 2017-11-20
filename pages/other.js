@@ -6,11 +6,12 @@ import withRedux from 'next-redux-wrapper'
 import Main from '../layouts/main'
 import Page from '../components/Page'
 
+
 class Counter extends React.Component {
-  static getInitialProps ({ store, isServer }) {
+  static getInitialProps ({ store, isServer, query }) {
     store.dispatch(serverRenderClock(isServer))
     store.dispatch(addCount())
-    return { isServer }
+    return { isServer, id: query.id }
   }
 
   componentDidMount () {
@@ -25,6 +26,7 @@ class Counter extends React.Component {
     return (
       <Main>  
         <Page title='Other Page' linkTo='/' />
+        ID is {this.props.id}
       </Main>
     )
   }
