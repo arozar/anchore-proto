@@ -38,7 +38,7 @@ export const loadGetImagesVulnSuccess = (vulnData) => {
         vulnData = [];
     }
 
-    return { type: GET_IMAGES_VULN_SUCCESS, vulnData };
+    return { type: GET_IMAGES_VULN_SUCCESS, vulnData: vulnData.vulnerabilities };
 }
 
 export const getImageVulnByDigest = (imageDigest) => {

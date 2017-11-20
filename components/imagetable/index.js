@@ -15,7 +15,7 @@ const ImageTable = ({ images }) => (
 
                     const { row } = rowInfo;
 
-                    Router.pushRoute('other', { id: row.imageDigest })
+                    Router.pushRoute('vuln', { id: row.imageDigest })
 
                   }
                 }

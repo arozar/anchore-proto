@@ -4,58 +4,59 @@ import { Router } from '../../routes';
 import ReactTable from "react-table";
 import { stylesheet } from 'react-table/react-table.css';
 
-const VulnTable = ({ vulnData }) => (
+const VulnTable = ({ vulnData, severityOptions }) => (
 
     <div>
         <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
         <ReactTable
             data={vulnData}
+            filterable
+            defaultFilterMethod={(filter, row) =>
+                row[filter.id].toString().startsWith(filter.value)}
             columns={[
                 {
-                    Header: "Repo",
+                    Header: "Vuln",
                     columns: [
                         {
-                            Header: "Repo",
-                            accessor: "repo"
+                            Header: "Fix",
+                            accessor: "fix"
                         },
                         {
-                            Header: "Tag",
-                            id: "tag",
-                            accessor: d => d.tag
+                            Header: "Package",
+                            accessor: "package"
                         },
                         {
-                            Header: "Registry",
-                            accessor: "registry"
+                            Header: "Severity",
+                            accessor: "severity",
+                            filterMethod: (filter, row) => {
+                                if (filter.value === "all") {
+                                    return true;
+                                }
+
+                                return row.severity === filter.value;
+                            },
+                            Filter: ({ filter, onChange }) => {
+
+                                const options = severityOptions.map(item=> (<option key={item} value={item}>{item}</option>))
+
+                                return (<select
+                                    onChange={event => onChange(event.target.value)}
+                                    style={{ width: "100%" }}
+                                    value={filter ? filter.value : "all"}
+                                >
+                                    {options}
+                                </select>)
+
+                            }
+
                         },
                         {
-                            Header: "Id",
-                            accessor: "imageId"
+                            Header: "Url",
+                            accessor: "url"
                         },
                         {
-                            Header: "Digest",
-                            accessor: "imageDigest"
-                        }
-                    ]
-                },
-                {
-                    Header: "Info",
-                    columns: [
-                        {
-                            Header: "Age",
-                            accessor: "age"
-                        },
-                        {
-                            Header: "Status",
-                            accessor: "status"
-                        }
-                    ]
-                },
-                {
-                    Header: 'Stats',
-                    columns: [
-                        {
-                            Header: "Visits",
-                            accessor: "visits"
+                            Header: "Vulnerability",
+                            accessor: "vuln"
                         }
                     ]
                 }

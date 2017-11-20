@@ -6,7 +6,7 @@ import namor from "namor";
 import withRedux from 'next-redux-wrapper';
 
 import { getImageVulnByDigest } from '../actions/images';
-import { mapImages } from '../actions/images/images.selectors';
+import { mapVulnGroups } from '../actions/images/images.selectors';
 
 import Main from '../layouts/main'
 import VulnTable from '../components/vulntable'
@@ -27,10 +27,11 @@ class VulnPage extends React.Component {
 
   render () {
 
-    const { vulnData, loading, data } = this.props;
+    const { vulnData, loading, severityOptions } = this.props;
+
     return (
       <Main>
-        <VulnTable vulnData={vulnData||[]}/>
+        <VulnTable vulnData={ vulnData ||[]} severityOptions={severityOptions}/>
       </Main>
       )
   }
@@ -47,10 +48,10 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = ({ images, ajaxStatus }) => {
 
   return{
-    vulnData: mapImages(images.vulnData),
+    vulnData: images.vulnData,
     loading: ajaxStatus.loading,
     error: ajaxStatus.error,
-    data: makeData()
+    severityOptions: mapVulnGroups(images.vulnData)
   };
 }
 

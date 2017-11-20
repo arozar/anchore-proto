@@ -21,5 +21,5 @@ export async function getImageVuln (imageDigest) {
 }
 
 export function getVulnUrl(imageDigest){
-    return `${imagesUrl}/${imageDigest}/os`;
+    return `${imagesUrl}/${imageDigest}/vuln/os`;
 }
