@@ -4,23 +4,12 @@ import { Router } from '../../routes';
 import ReactTable from "react-table";
 import { stylesheet } from 'react-table/react-table.css';
 
-const ImageTable = ({ images }) => (
+const VulnTable = ({ vulnData }) => (
 
     <div>
         <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
         <ReactTable
-            getTdProps={(state, rowInfo, column, instance) => {
-                return {
-                  onClick: (e, handleOriginal) => {
-
-                    const { row } = rowInfo;
-
-                    Router.pushRoute('other', { id: row.imageDigest })
-
-                  }
-                }
-              }}
-            data={images}
+            data={vulnData}
             columns={[
                 {
                     Header: "Repo",
@@ -78,4 +67,4 @@ const ImageTable = ({ images }) => (
     </div>
 );
 
-export default ImageTable;
+export default VulnTable;

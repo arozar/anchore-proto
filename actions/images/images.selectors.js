@@ -41,3 +41,15 @@ export function mapImageDetail([detail]){
         tag: detail.tag
     };
 }
+
+export function mapVulnGroups(apiData){
+
+    if (!apiData || !apiData.length)
+        return [];
+
+    const allSeverity = apiData.map(vuln => vuln.severity);
+
+    const distinctVals = [...new Set(allSeverity)];
+
+    return distinctVals; 
+}
