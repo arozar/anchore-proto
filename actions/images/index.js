@@ -1,7 +1,9 @@
 import { beginAjaxCall, ajaxCallError } from '../ajaxstatus';
-import { getAllImages } from './imagesApi';
+import { getAllImages, getImageVuln } from './imagesApi';
 
 export const GET_ALL_IMAGES_SUCCESS = 'GET_ALL_IMAGES_SUCCESS';
+
+export const GET_IMAGES_VULN_SUCCESS = 'GET_IMAGES_VULN_SUCCESS';
 
 export const loadGetAllImagesSuccess = (images) => {
 
@@ -19,14 +21,39 @@ export const getImages = () => {
             dispatch(beginAjaxCall());
 
             const images = await getAllImages();
-
+            
             dispatch(loadGetAllImagesSuccess(images));
 
             return images;
-            
-        } catch (error) {
 
+        } catch (error) {
             dispatch(ajaxCallError());
         }
     }
 };
+
+export const loadGetImagesVulnSuccess = (vulnData) => {
+
+    if (!vulnData) {
+        vulnData = [];
+    }
+
+    return { type: GET_IMAGES_VULN_SUCCESS, vulnData };
+}
+
+export const getImageVulnByDigest = (imageDigest) => {
+    return async (dispatch) => {
+
+        try {
+
+            dispatch(beginAjaxCall());
+
+            const vulnData = await getImageVuln(imageDigest);
+
+            dispatch(loadGetImagesVulnSuccess(vulnData));
+
+        } catch (error) {
+            dispatch(ajaxCallError());
+        }
+    }
+}
