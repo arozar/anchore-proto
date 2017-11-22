@@ -13,6 +13,16 @@ const VulnTable = ({ vulnData, severityOptions }) => (
             filterable
             defaultFilterMethod={(filter, row) =>
                 row[filter.id].toString().includes(filter.value)}
+            getTdProps={(state, rowInfo, column, instance) => {
+                return {
+                    onClick: (e, handleOriginal) => {
+
+                    const { row } = rowInfo;
+
+                    window.open(row.url);
+                    }
+                }
+                }}
             columns={[
                 {
                     Header: "Vuln",
