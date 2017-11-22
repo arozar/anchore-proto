@@ -62,6 +62,7 @@ services:
      driver: "json-file"
      options:
       max-size: 100m
+
     #uncomment to expose a port to allow direct/external access to the DB, for debugging
     #ports:
     # - "2345:5432"
@@ -76,3 +77,11 @@ services:
       - ANCHORE_CLI_URL=http://anchore-engine:8228/v1
       - ANCHORE_CLI_USER=$ANCHORE_CLI_USER
       - ANCHORE_CLI_PASS=$ANCHORE_CLI_PASS
+    depends_on:
+      - anchore-engine
+  nginx:
+    build: ./nginx
+    ports:
+      - '3200:80'
+    depends_on:
+      - app
