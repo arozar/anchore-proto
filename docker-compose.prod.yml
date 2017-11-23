@@ -1,0 +1,19 @@
+  app:
+    build: .
+    ports:
+      - '3100:3000'
+    volumes:
+      - .:/home/nodejs/app
+      - /home/nodejs/app/node_modules
+    environment:
+      - ANCHORE_CLI_URL=http://anchore-engine:8228/v1
+      - ANCHORE_CLI_USER=$ANCHORE_CLI_USER
+      - ANCHORE_CLI_PASS=$ANCHORE_CLI_PASS
+    depends_on:
+      - anchore-engine
+  nginx:
+    build: ./nginx
+    ports:
+      - '3200:80'
+    depends_on:
+      - app

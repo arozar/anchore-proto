@@ -10,4 +10,4 @@ USER nodejs
 WORKDIR $HOME/app
 RUN npm install
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]

@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "node scripts/test.js --env=jsdom --runInBand",
+    "anchore": "docker-compose up -d",
     "dev": "NODE_ENV=development PORT=3000 node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production PORT=3000 node server.js"
+    "start": "npm run build && NODE_ENV=production PORT=3000 node server.js",
+    "start:all": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
+    
   },
   "author": "Andrew de Rozario",
   "license": "ISC",
