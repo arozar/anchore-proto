@@ -25,13 +25,17 @@ class VulnPage extends React.Component {
   componentWillUnmount () {
   }
 
+  navigateToUrl(url){
+    window.open(url);
+  }
+
   render () {
 
     const { vulnData, loading, severityOptions } = this.props;
 
     return (
       <Main>
-        <VulnTable vulnData={ vulnData ||[]} severityOptions={severityOptions}/>
+        <VulnTable vulnData={ vulnData ||[]} severityOptions={severityOptions} navigateToUrl={this.navigateToUrl}/>
       </Main>
       )
   }
@@ -39,8 +43,6 @@ class VulnPage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCount: bindActionCreators(addCount, dispatch),
-    startClock: bindActionCreators(startClock, dispatch),
     getImageVuln: bindActionCreators(getImageVulnByDigest, dispatch)
   }
 }

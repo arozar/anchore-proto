@@ -4,7 +4,7 @@ import { Router } from '../../routes';
 import ReactTable from "react-table";
 import { stylesheet } from 'react-table/react-table.css';
 
-const VulnTable = ({ vulnData, severityOptions }) => (
+const VulnTable = ({ vulnData, severityOptions, navigateToUrl }) => (
 
     <div>
         <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
@@ -19,7 +19,7 @@ const VulnTable = ({ vulnData, severityOptions }) => (
 
                     const { row } = rowInfo;
 
-                    window.open(row.url);
+                    navigateToUrl(row.url);
                     }
                 }
                 }}
