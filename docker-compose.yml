@@ -33,7 +33,7 @@
 # - if you change the DB password in this file, make sure to also change it in your config.yaml 'db_connect' setting
 # 
 
-version: '2'
+version: '3'
 services:
   anchore-engine:
     #image: "anchore-engine"
