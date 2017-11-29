@@ -4,9 +4,11 @@ import { Router } from '../../routes';
 import ReactTable from "react-table";
 import { stylesheet } from 'react-table/react-table.css';
 
-const VulnTable = ({ vulnData, severityOptions, navigateToUrl }) => (
+const VulnTable = ({ vulnData, severityOptions, navigateToUrl, selectedImage }) => {
 
-    <div>
+    const headerText = (selectedImage) ? `${selectedImage.registry} ${selectedImage.repo} ${selectedImage.tag}` : '';
+
+    return (<div>
         <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
         <ReactTable
             data={vulnData}
@@ -17,15 +19,15 @@ const VulnTable = ({ vulnData, severityOptions, navigateToUrl }) => (
                 return {
                     onClick: (e, handleOriginal) => {
 
-                    const { row } = rowInfo;
+                        const { row } = rowInfo;
 
-                    navigateToUrl(row.url);
+                        navigateToUrl(row.url);
                     }
                 }
-                }}
+            }}
             columns={[
                 {
-                    Header: "Vuln",
+                    Header: headerText,
                     columns: [
                         {
                             Header: "Fix",
@@ -47,7 +49,7 @@ const VulnTable = ({ vulnData, severityOptions, navigateToUrl }) => (
                             },
                             Filter: ({ filter, onChange }) => {
 
-                                const options = severityOptions.map(item=> (<option key={item} value={item}>{item}</option>))
+                                const options = severityOptions.map(item => (<option key={item} value={item}>{item}</option>))
 
                                 return (<select
                                     onChange={event => onChange(event.target.value)}
@@ -75,7 +77,7 @@ const VulnTable = ({ vulnData, severityOptions, navigateToUrl }) => (
             className="-striped -highlight"
         />
         <br />
-    </div>
-);
+    </div>)
+};
 
 export default VulnTable;

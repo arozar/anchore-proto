@@ -6,13 +6,14 @@ import namor from "namor";
 import withRedux from 'next-redux-wrapper';
 
 import { getImageVulnByDigest } from '../actions/images';
-import { mapVulnGroups } from '../actions/images/images.selectors';
+import { mapVulnGroups, mapImages } from '../actions/images/images.selectors';
 
 import Main from '../layouts/main'
 import VulnTable from '../components/vulntable'
 
 
 class VulnPage extends React.Component {
+  
   static async getInitialProps ({ store, isServer, query }) {
     
     return { isServer, id: query.id }
@@ -31,11 +32,14 @@ class VulnPage extends React.Component {
 
   render () {
 
-    const { vulnData, loading, severityOptions } = this.props;
+    const { vulnData, loading, severityOptions, id, images } = this.props;
+
+    //TODO remove or use re-select this is inefficient
+    const selectedImage = images.find(image => image.imageDigest === id);
 
     return (
       <Main>
-        <VulnTable vulnData={ vulnData ||[]} severityOptions={severityOptions} navigateToUrl={this.navigateToUrl}/>
+        <VulnTable selectedImage={ selectedImage } vulnData={ vulnData ||[] } severityOptions={severityOptions} navigateToUrl={this.navigateToUrl}/>
       </Main>
       )
   }
@@ -53,7 +57,8 @@ const mapStateToProps = ({ images, ajaxStatus }) => {
     vulnData: images.vulnData,
     loading: ajaxStatus.loading,
     error: ajaxStatus.error,
-    severityOptions: mapVulnGroups(images.vulnData)
+    severityOptions: mapVulnGroups(images.vulnData),
+    images: mapImages(images.list)
   };
 }
 
