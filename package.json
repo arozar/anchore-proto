@@ -12,7 +12,6 @@
     "start": "npm run build && NODE_ENV=production PORT=3000 node server.js",
     "start:all": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "stop:all": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml down"
-    
   },
   "author": "Andrew de Rozario",
   "license": "ISC",
@@ -44,6 +43,8 @@
     "babel-preset-latest": "^6.24.1",
     "css-loader": "^0.28.7",
     "cssnano": "^3.10.0",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "http-proxy-middleware": "^0.17.4",
     "isomorphic-style-loader": "^4.0.0",

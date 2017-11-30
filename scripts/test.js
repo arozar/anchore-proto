@@ -20,5 +20,4 @@ if (!process.env.CI && argv.indexOf('--coverage') < 0) {
   argv.push('--watchAll');
 }
 
-
 jest.run(argv);

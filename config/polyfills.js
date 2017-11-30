@@ -20,3 +20,8 @@ Object.assign = require('object-assign');
 
 //ensure test double is always there
 global.td = require('testdouble');
+
+var enzyme = require('enzyme');
+var Adapter = require('enzyme-adapter-react-16');
+
+enzyme.configure({ adapter: new Adapter() });
