@@ -1,11 +1,11 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
-import { initStore, startClock, addCount, serverRenderClock } from '../store'
+import { initStore } from '../store'
 import namor from "namor";
 
 import withRedux from 'next-redux-wrapper';
 
-import { getImageVulnByDigest } from '../actions/images';
+import { getImageVulnByDigest, getImages } from '../actions/images';
 import { mapVulnGroups, mapImages } from '../actions/images/images.selectors';
 
 import Main from '../layouts/main'
@@ -16,11 +16,16 @@ class VulnPage extends React.Component {
   
   static async getInitialProps ({ store, isServer, query }) {
     
-    return { isServer, id: query.id }
+    return { isServer, id: decodeURIComponent(query.id) }
   }
 
   componentDidMount () {
     this.props.getImageVuln(this.props.id);
+
+    if(this.props.images.length === 0){      
+      this.props.getImages();
+    }
+
   }
 
   componentWillUnmount () {
@@ -35,7 +40,7 @@ class VulnPage extends React.Component {
     const { vulnData, loading, severityOptions, id, images } = this.props;
 
     //TODO remove or use re-select this is inefficient
-    const selectedImage = images.find(image => image.imageDigest === id);
+    const selectedImage = this.props.images.find(image => image.imageDigest === id);
 
     return (
       <Main>
@@ -47,7 +52,8 @@ class VulnPage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getImageVuln: bindActionCreators(getImageVulnByDigest, dispatch)
+    getImageVuln: bindActionCreators(getImageVulnByDigest, dispatch),
+    getImages: bindActionCreators(getImages, dispatch)
   }
 }
 

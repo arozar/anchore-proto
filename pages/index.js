@@ -1,7 +1,6 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
-import { initStore, startClock, addCount, serverRenderClock } from '../store'
-import namor from "namor";
+import { initStore } from '../store'
 
 import withRedux from 'next-redux-wrapper';
 import { Router } from '../routes';
@@ -42,8 +41,6 @@ class ImagePage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCount: bindActionCreators(addCount, dispatch),
-    startClock: bindActionCreators(startClock, dispatch),
     getImages: bindActionCreators(getImages, dispatch)
   }
 }
@@ -53,8 +50,7 @@ const mapStateToProps = ({ images, ajaxStatus }) => {
   return{
     images: mapImages(images.list),
     loading: ajaxStatus.loading,
-    error: ajaxStatus.error,
-    data: makeData()
+    error: ajaxStatus.error
   };
 }
 
